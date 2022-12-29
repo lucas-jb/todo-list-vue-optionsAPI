@@ -6,6 +6,9 @@
   --navbar-color: #15181C;
   --accent-color: #41B883;
   --danger-color: #E06C75;
+  --edit-color: #ea9ee4;
+  --warning-color: #E5C07B;
+  --info-color: #61AFEF;
 }
 
 html {
