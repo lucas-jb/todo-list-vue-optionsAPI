@@ -1,32 +1,51 @@
-<script setup>
-
-</script>
-
 <template>
   <nav class="navbar">
-    <img src="./assets/logo.svg" width="50"/>
+    <img src="./assets/mono.png" width="50"/>
     <div class="brand">Todo list App</div>
   </nav>
   <main class="container">
     <section>
       <form class="add-todo-form">
-        <input type="text" placeholder="Todo title"/>
+        <input v-model="todoTitle" type="text" placeholder="Todo title"/>
         <div>
-          <button>Add Todo</button>
+          <button @click.prevent="addTodo">Add Todo</button>
         </div>
       </form>
     </section>
 
     <section>
-      <div class="todo">
-        <p>Pasear al perro</p>
+      <div v-for="(todo, i) in todos" class="todo">
+        <p>{{ todo }}</p>
         <div>
-          <button class="remove-todo-btn">x</button>
+          <button @click.prevent="removeTodo(i)" class="remove-todo-btn">x</button>
         </div>
       </div>
     </section>
   </main>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        todoTitle: "",
+        todos: [],
+      }
+    },
+    methods: {
+      addTodo(){
+        this.todos.push(this.todoTitle)
+      },
+      // haz una función para eliminar un todo
+
+      removeTodo(iTodo){
+        this.todos.splice(iTodo, 1)
+      }
+    }
+  }
+  
+
+</script>
 
 <style scoped>
 .navbar {
