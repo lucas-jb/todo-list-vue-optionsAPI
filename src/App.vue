@@ -36,10 +36,8 @@
       addTodo(){
         this.todos.push(this.todoTitle)
       },
-      // haz una función para eliminar un todo
-
-      removeTodo(iTodo){
-        this.todos.splice(iTodo, 1)
+      removeTodo(todoTitle){
+        this.todos = this.todos.filter((todo, i) => i !== todoTitle)
       }
     }
   }
