@@ -1,7 +1,7 @@
 <template>
-  <div v-if="show" class="alert" :style="{backgroundColor}">
+  <div v-if="show" class="alert" :style="{ backgroundColor }">
     <div>{{ message }}</div>
-    <Btn @click="$emit('close')" class="close-alert">&times;</Btn>
+    <Btn type="danger" @click="$emit('close')" class="close-alert">&times;</Btn>
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import Btn from "./Btn.vue";
 
 export default {
-  components:{
+  components: {
     Btn,
   },
   props: {
@@ -25,21 +25,21 @@ export default {
       type: String,
       required: false,
       default: "danger",
-      validator(value){
+      validator(value) {
         return ["danger", "warning", "info"].includes(value);
-      }
+      },
     },
   },
 
   computed: {
     backgroundColor() {
-        const options = {
-          danger: "var(--danger-color)",
-          warning: "var(--warning-color)",
-          info: "var(--info-color)",
-        };
+      const options = {
+        danger: "var(--danger-color)",
+        warning: "var(--warning-color)",
+        info: "var(--info-color)",
+      };
 
-        return options[this.type];
+      return options[this.type];
     },
   },
 
