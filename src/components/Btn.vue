@@ -53,6 +53,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 3px;
 }
 .circle {
   border-radius: 50%;
