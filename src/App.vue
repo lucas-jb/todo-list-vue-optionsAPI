@@ -11,24 +11,26 @@
       @close="showAlert = false"
       type="danger"
     ></Alert>
-    <section>
-      <form class="add-todo-form">
-        <input v-model="todoTitle" type="text" placeholder="Todo title" />
-        <div>
-          <button @click.prevent="addTodo">Add Todo</button>
-        </div>
-      </form>
-    </section>
 
-    <section>
-      <div v-for="todo in todos" class="todo" :key="todo.id">
-        <p>{{ todo.title }}</p>
-        <div>
-          <button @click="editTodo(todo)" class="edit-todo-btn">e</button>
-          <button @click="removeTodo(todo)" class="remove-todo-btn">x</button>
+      <section>
+        <form class="add-todo-form">
+          <input v-model="todoTitle" type="text" placeholder="Todo title" />
+          <div>
+            <button @click.prevent="addTodo">Add Todo</button>
+          </div>
+        </form>
+      </section>
+
+      <section>
+        <div v-for="todo in todos" class="todo" :key="todo.id">
+          <p>{{ todo.title }}</p>
+          <div>
+            <button @click="editTodo(todo)" class="edit-todo-btn">e</button>
+            <button @click="removeTodo(todo)" class="remove-todo-btn">x</button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
   </main>
 </template>
 
@@ -81,6 +83,7 @@ export default {
   margin-bottom: 30px;
 }
 .brand {
+  margin-left: 30px;
   font-size: 2rem;
 }
 
