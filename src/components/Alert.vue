@@ -1,12 +1,17 @@
 <template>
   <div v-if="show" class="alert" :style="{backgroundColor}">
     <div>{{ message }}</div>
-    <div @click="$emit('close')" class="close-alert">&times;</div>
+    <Btn @click="$emit('close')" class="close-alert">&times;</Btn>
   </div>
 </template>
 
 <script>
+import Btn from "./Btn.vue";
+
 export default {
+  components:{
+    Btn,
+  },
   props: {
     message: {
       type: String,

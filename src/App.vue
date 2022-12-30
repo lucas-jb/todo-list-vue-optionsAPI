@@ -1,8 +1,5 @@
 <template>
-  <nav class="navbar">
-    <img src="./assets/mono.png" width="50" />
-    <div class="brand">Todo list App</div>
-  </nav>
+  <Navbar />
 
   <main class="container">
     <Alert
@@ -10,36 +7,37 @@
       :show="showAlert"
       @close="showAlert = false"
       type="danger"
-    ></Alert>
+    />
 
-      <section>
-        <form class="add-todo-form">
-          <input v-model="todoTitle" type="text" placeholder="Todo title" />
-          <div>
-            <button @click.prevent="addTodo">Add Todo</button>
-          </div>
-        </form>
-      </section>
+    <section>
+      <AddTodoForm @submit="addTodo" />
+    </section>
 
-      <section>
-        <div v-for="todo in todos" class="todo" :key="todo.id">
-          <p>{{ todo.title }}</p>
-          <div>
-            <button @click="editTodo(todo)" class="edit-todo-btn">e</button>
-            <button @click="removeTodo(todo)" class="remove-todo-btn">x</button>
-          </div>
-        </div>
-      </section>
-
+    <section>
+      <Todo
+        v-for="todo in todos"
+        :key="todo.id"
+        :title="todo.title"
+        :inputTitle="todoTitle"
+        @remove="removeTodo(todo)"
+        @edit="editTodo"
+      />
+    </section>
   </main>
 </template>
 
 <script>
 import Alert from "./components/Alert.vue";
+import Navbar from "./components/Navbar.vue";
+import AddTodoForm from "./components/AddTodoForm.vue";
+import Todo from "./components/Todo.vue";
 
 export default {
   components: {
     Alert,
+    Navbar,
+    AddTodoForm,
+    Todo,
   },
   data() {
     return {
@@ -49,18 +47,17 @@ export default {
     };
   },
   methods: {
-    addTodo() {
-      if (this.todoTitle !== "") {
+    addTodo(title) {
+      if (title !== "") {
         this.todos.push({
-          title: this.todoTitle,
+          title,
           id: this.todos.length + Math.floor(Math.random() * 100),
         });
-        this.todoTitle = "";
+        //AddTodoForm.ClearTitle();
       } else {
         this.showAlert = true;
       }
     },
-
     removeTodo(todo) {
       this.todos = this.todos.filter((todoTitle) => todoTitle !== todo);
       this.todoTitle = "";
@@ -74,61 +71,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.navbar {
-  display: flex;
-  align-items: center;
-  background: var(--navbar-color);
-  padding: 20px;
-  margin-bottom: 30px;
-}
-.brand {
-  margin-left: 30px;
-  font-size: 2rem;
-}
-
-.add-todo-form {
-  display: flex;
-  justify-content: space-between;
-}
-.add-todo-form input {
-  width: 80%;
-  border: solid 2px var(--accent-color);
-}
-.add-todo-form button {
-  background: var(--accent-color);
-  color: var(--tex-color);
-  border: none;
-  height: 50px;
-}
-.todo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--accent-color);
-  margin-top: 30px;
-  padding: 0 20px 0 20px;
-  border-radius: 20px;
-}
-.remove-todo-btn {
-  border-radius: 50%;
-  border: none;
-  height: 40px;
-  width: 40px;
-  font-size: 30px;
-  color: var(--tex-color);
-  background: var(--danger-color);
-  cursor: pointer;
-}
-
-.edit-todo-btn {
-  border-radius: 50%;
-  border: none;
-  height: 40px;
-  width: 40px;
-  font-size: 30px;
-  color: var(--tex-color);
-  background: var(--edit-color);
-  cursor: pointer;
-}
-</style>
+<style scoped></style>
