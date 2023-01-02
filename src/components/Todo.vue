@@ -2,19 +2,10 @@
   <div class="todo">
     <p>{{ title }}</p>
     <div>
-      <Btn
-        class="todo-btn"
-        circle
-        type="info"
-        @click="$emit('edit', todo)"
-      >
+      <Btn class="todo-btn" circle type="info" @click="$emit('edit', todo)">
         <Pencil />
       </Btn>
-      <Btn
-        class="todo-btn"
-        circle
-        type="danger"
-        @click="$emit('remove', todo)"
+      <Btn class="todo-btn" circle type="danger" @click="$emit('remove', todo)"
         ><Bin
       /></Btn>
     </div>
