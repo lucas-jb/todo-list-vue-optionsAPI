@@ -87,12 +87,9 @@ export default {
       } else {
         this.showAlert = true;
       }
-      //clear input
-      this.AddTodoForm.todoTitle = "";
     },
     removeTodo(todo) {
       this.todos = this.todos.filter((todoTitle) => todoTitle !== todo);
-      this.todoTitle = "";
     },
 
     showEditTodoForm(todo) {
