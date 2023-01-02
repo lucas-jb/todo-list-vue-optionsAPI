@@ -2,7 +2,7 @@
   <Navbar />
 
   <main class="container">
-    <Modal :show="editTodoForm.show">
+    <Modal :show="editTodoForm.show" @close="editTodoForm.show = false" @submit="updateTodo">
       <template #header>
         <h2>Edit Todo</h2>
       </template>
@@ -15,9 +15,14 @@
       </template>
 
       <template #footer>
+        <div class="footer">
+          <div class="infoModalFooter">
+          <div>Esc to exit - Enter to submit</div>
+        </div>
         <div class="editTodoModalFooter">
           <Btn class="editTodoSubmitBtn" @click="updateTodo">Submit</Btn>
           <Btn type="danger" @click="editTodoForm.show = false">Close</Btn>
+        </div>
         </div>
       </template>
     </Modal>
@@ -119,7 +124,17 @@ export default {
   justify-content: end;
   padding: 10px;
 }
+.footer{
+  display: flex;
+  justify-content: space-between;
+}
 .editTodoSubmitBtn {
   margin-right: 10px;
+}
+.infoModalFooter {
+  display: flex;
+  justify-content: start;
+  padding: 30px;
+  color: var(--text-color);
 }
 </style>

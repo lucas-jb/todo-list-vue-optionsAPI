@@ -1,7 +1,6 @@
 <template>
-  <div v-if="show" class="modal">
+  <div ref="modal" v-if="show" class="modal">
     <div class="modal-content">
-
       <div class="modal-header">
         <slot name="header"></slot>
       </div>
@@ -13,22 +12,46 @@
       <div class="modal-footer">
         <slot name="footer"></slot>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-window.addEventListener("click", (e) => {
-    console.log(e.target);
-});
-
 export default {
-    props: {
-        show: {
-            default: false,
-        },
+  props: {
+    show: {
+      default: false,
     },
+  },
+  data() {
+    return {
+      clickListener: (e) => {
+        if (e.target === this.$refs.modal) {
+          this.$emit("close");
+        }
+      },
+      closeOnEscapeListener : (e) => {
+        if (e.key === "Escape") {
+          this.$emit("close");
+        }
+      },
+      submitOnEnterListener : (e) => {
+        if (e.key === "Enter") {
+          this.$emit("submit");
+        }
+      }
+    };
+  },
+  emits: ["close", "submit"],
+
+  mounted() {
+    window.addEventListener("click", this.clickListener);
+    window.addEventListener("keydown", this.closeOnEscapeListener);
+  },
+  beforeUnmount() {
+    window.removeEventListener("click", this.clickListener);
+    window.removeEventListener("keydown", this.closeOnEscapeListener);
+  },
 };
 </script>
 
