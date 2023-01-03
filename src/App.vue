@@ -2,7 +2,11 @@
   <Navbar />
 
   <main class="container">
-    <Modal :show="editTodoForm.show" @close="editTodoForm.show = false" @submit="updateTodo">
+    <Modal
+      :show="editTodoForm.show"
+      @close="editTodoForm.show = false"
+      @submit="updateTodo"
+    >
       <template #header>
         <h2>Edit Todo</h2>
       </template>
@@ -17,20 +21,20 @@
       <template #footer>
         <div class="footer">
           <div class="infoModalFooter">
-          <div>Esc to exit - Enter to submit</div>
-        </div>
-        <div class="editTodoModalFooter">
-          <Btn class="editTodoSubmitBtn" @click="updateTodo">Submit</Btn>
-          <Btn variant="danger" @click="editTodoForm.show = false">Close</Btn>
-        </div>
+            <div>Esc to exit - Enter to submit</div>
+          </div>
+          <div class="editTodoModalFooter">
+            <Btn class="editTodoSubmitBtn" @click="updateTodo">Submit</Btn>
+            <Btn variant="danger" @click="editTodoForm.show = false">Close</Btn>
+          </div>
         </div>
       </template>
     </Modal>
     <Alert
-      message="Todo title is required"
-      :show="showAlert"
-      @close="showAlert = false"
-      type="danger"
+      :message="alert.message"
+      :show="alert.show"
+      @close="alert.show = false"
+      :type="alert.type"
     />
 
     <section>
@@ -57,6 +61,7 @@ import AddTodoForm from "./components/AddTodoForm.vue";
 import Todo from "./components/Todo.vue";
 import Modal from "./components/Modal.vue";
 import Btn from "./components/Btn.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -71,7 +76,11 @@ export default {
     return {
       todoTitle: "",
       todos: [],
-      showAlert: false,
+      alert: {
+        show: false,
+        message: "",
+        type: "",
+      },
       showEditTodoModal: false,
       editTodoForm: {
         show: false,
@@ -82,19 +91,34 @@ export default {
       },
     };
   },
+  created() {
+    this.fetchTodo();
+  },
   methods: {
-    addTodo(title) {
-      if (title !== "") {
-        this.todos.push({
-          title,
-          id: this.todos.length + Math.floor(Math.random() * 100),
-        });
-      } else {
-        this.showAlert = true;
+    async fetchTodo() {
+      try {
+        const res = await axios.get("http://localhost:8080/todos");
+        this.todos = await res.data;
+      } catch {
+        this.showAlert("Something went wrong");
       }
     },
-    removeTodo(todo) {
-      this.todos = this.todos.filter((todoTitle) => todoTitle !== todo);
+    showAlert(message, type = "danger") {
+      this.alert.message = message;
+      this.alert.show = true;
+      this.alert.type = type;
+    },
+    async addTodo(title) {
+      if (title !== "") {
+        const res = await axios.post("http://localhost:8080/todos", { title });
+        this.todos.push(res.data);
+      } else {
+        this.showAlert("Todo title is required");
+      }
+    },
+    async removeTodo(todo) {
+      await axios.delete(`http://localhost:8080/todos/${todo.id}`);
+      this.todos = this.todos.filter((t) => t.id !== todo.id);
     },
 
     showEditTodoForm(todo) {
@@ -124,7 +148,7 @@ export default {
   justify-content: end;
   padding: 10px;
 }
-.footer{
+.footer {
   display: flex;
   justify-content: space-between;
 }
