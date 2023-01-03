@@ -21,7 +21,7 @@
         </div>
         <div class="editTodoModalFooter">
           <Btn class="editTodoSubmitBtn" @click="updateTodo">Submit</Btn>
-          <Btn type="danger" @click="editTodoForm.show = false">Close</Btn>
+          <Btn variant="danger" @click="editTodoForm.show = false">Close</Btn>
         </div>
         </div>
       </template>

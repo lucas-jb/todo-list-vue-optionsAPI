@@ -11,7 +11,7 @@
 <script>
 export default {
   props: {
-    type: {
+    variant: {
       type: String,
       required: false,
       default: "success",
@@ -34,7 +34,7 @@ export default {
         info: "var(--info-color)",
       };
 
-      return options[this.type];
+      return options[this.variant];
     },
     applyCircleClass() {
       return this.circle;
