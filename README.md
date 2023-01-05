@@ -1,3 +1,7 @@
+# about the project
+
+A todo-list app developed in Vue3 with the options API
+
 # todo-list-vue
 
 This template should help get you started developing with Vue 3 in Vite.
