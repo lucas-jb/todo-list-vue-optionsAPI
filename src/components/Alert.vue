@@ -21,7 +21,7 @@ export default {
       type: Boolean,
       required: true,
     },
-    type: {
+    variant: {
       type: String,
       required: false,
       default: "danger",
@@ -39,7 +39,7 @@ export default {
         info: "var(--info-color)",
       };
 
-      return options[this.type];
+      return options[this.variant];
     },
   },
 

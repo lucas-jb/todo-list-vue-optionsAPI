@@ -12,7 +12,7 @@
       :message="alert.message"
       :show="alert.show"
       @close="alert.show = false"
-      :type="alert.type"
+      :variant="alert.variant"
     />
 
     <section>
@@ -64,7 +64,7 @@ export default {
       alert: {
         show: false,
         message: "",
-        type: "",
+        variant: "",
       },
       showEditTodoModal: false,
       editTodoForm: {
@@ -92,10 +92,10 @@ export default {
       }
       this.isLoading = false;
     },
-    showAlert(message, type = "danger") {
+    showAlert(message, variant = "danger") {
       this.alert.message = message;
       this.alert.show = true;
-      this.alert.type = type;
+      this.alert.variant = variant;
     },
     async addTodo(title) {
       this.buttonLoading = true;
