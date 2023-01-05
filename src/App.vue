@@ -107,7 +107,7 @@ export default {
     async fetchTodo() {
       this.isLoading = true;
       try {
-        const res = await axios.get("http://localhost:8080/todos");
+        const res = await axios.get("api/todos");
         this.todos = await res.data;
       } catch (e) {
         this.showAlert("There was a problem loading todos");
@@ -122,7 +122,7 @@ export default {
     async addTodo(title) {
       this.buttonLoading = true;
       if (title !== "") {
-        const res = await axios.post("http://localhost:8080/todos", { title });
+        const res = await axios.post("api/todos", { title });
         this.todos.push(res.data);
       } else {
         this.showAlert("Todo title is required");
@@ -130,7 +130,7 @@ export default {
       this.buttonLoading = false;
     },
     async removeTodo(todo) {
-      await axios.delete(`http://localhost:8080/todos/${todo.id}`);
+      await axios.delete(`api/todos/${todo.id}`);
       this.todos = this.todos.filter((t) => t.id !== todo.id);
     },
 
