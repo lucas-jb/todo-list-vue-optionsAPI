@@ -38,18 +38,22 @@
     />
 
     <section>
-      <AddTodoForm @submit="addTodo" />
+      <AddTodoForm :isLoading="buttonLoading" @submit="addTodo" />
     </section>
 
     <section>
-      <Todo
-        v-for="todo in todos"
-        :key="todo.id"
-        :title="todo.title"
-        :inputTitle="todoTitle"
-        @remove="removeTodo(todo)"
-        @edit="showEditTodoForm(todo)"
-      />
+      <Spinner class="todo-loading" v-if="isLoading" />
+      
+      <div v-else>
+        <Todo
+          v-for="todo in todos"
+          :key="todo.id"
+          :title="todo.title"
+          :inputTitle="todoTitle"
+          @remove="removeTodo(todo)"
+          @edit="showEditTodoForm(todo)"
+        />
+      </div>
     </section>
   </main>
 </template>
@@ -61,7 +65,9 @@ import AddTodoForm from "./components/AddTodoForm.vue";
 import Todo from "./components/Todo.vue";
 import Modal from "./components/Modal.vue";
 import Btn from "./components/Btn.vue";
+import Spinner from "./components/Spinner.vue";
 import axios from "axios";
+
 
 export default {
   components: {
@@ -71,6 +77,7 @@ export default {
     Todo,
     Modal,
     Btn,
+    Spinner,
   },
   data() {
     return {
@@ -89,6 +96,8 @@ export default {
           title: "",
         },
       },
+      isLoading: false,
+      buttonLoading: false,
     };
   },
   created() {
@@ -96,12 +105,14 @@ export default {
   },
   methods: {
     async fetchTodo() {
+      this.isLoading = true;
       try {
         const res = await axios.get("http://localhost:8080/todos");
         this.todos = await res.data;
-      } catch {
-        this.showAlert("Something went wrong");
+      } catch (e) {
+        this.showAlert("There was a problem loading todos");
       }
+      this.isLoading = false;
     },
     showAlert(message, type = "danger") {
       this.alert.message = message;
@@ -109,12 +120,14 @@ export default {
       this.alert.type = type;
     },
     async addTodo(title) {
+      this.buttonLoading = true;
       if (title !== "") {
         const res = await axios.post("http://localhost:8080/todos", { title });
         this.todos.push(res.data);
       } else {
         this.showAlert("Todo title is required");
       }
+      this.buttonLoading = false;
     },
     async removeTodo(todo) {
       await axios.delete(`http://localhost:8080/todos/${todo.id}`);
@@ -160,5 +173,8 @@ export default {
   justify-content: start;
   padding: 30px;
   color: var(--text-color);
+}
+.todo-loading {
+  margin-top: 30px;
 }
 </style>
