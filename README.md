@@ -2,7 +2,7 @@
 
 A todo-list app developed in Vue3 with the options API
 
-If you wanna check this app refactorized with the composite API get a look into this repo:
+If you wanna check this app refactorized with the composite API take a look into this repo:
 https://github.com/lucas-jb/todo-list-vue-compositionAPI/
 
 # todo-list-vue
